@@ -35,11 +35,11 @@ export class BbMarkers {
                             attractions: m["Attraits"],
                             description: m["Description"],
                             sectors: m["Secteurs"],
-                            FirstRoutesToBolt: m["Premières voies à ouvrir"],
-                            Boulders: m["Blocs"],
-                            Access: m["Accès"],
-                            PicturesLink: m["Lien photo"],
-                            LotNumber: m["lot cadastre"],
+                            firstRoutesToBolt: m["Premières voies à ouvrir"],
+                            boulders: m["Blocs"],
+                            access: m["Accès"],
+                            picturesLink: m["Lien photo"],
+                            lotNumber: m["lot cadastre"],
                             otherLinks: m["Liens Externes"],
                         })
                     }
@@ -66,7 +66,9 @@ export class BbMarkers {
     }
 
     static async addToggles() {
-        const containerDiv = document.getElementById("togglesContainer");
+        const containerDiv = document.createElement("div");
+        containerDiv.id = "togglesContainer";
+        document.body.appendChild(containerDiv);
         const options = [
             '4 - Oui !',
             '3 - Boui',
@@ -89,7 +91,7 @@ export class BbMarkers {
             containerDiv.appendChild(input);
 
             const label = document.createElement('label');
-            label.for = id;
+            label.htmlFor = id;
             label.textContent = type.split(' ')[2];
             containerDiv.appendChild(label);
 

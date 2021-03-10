@@ -75,26 +75,36 @@ export class BbMarker {
             title: marker.title,
             animation: google.maps.Animation.DROP,
         });
-        marker.html =
-        `
-        <div id="topTitle">${marker.title}</div><br/>
+        marker.html = `<div id="topTitle">${marker.title}</div><br/>`
+        const infos = [
+            {text: "Intérêt",                   field: "interest",                  link: false },
+            {text: "Potentiel de voies",        field: "potentialAmountOfRoutes",   link: false },
+            {text: "Largeur",                   field: "width",                     link: false },
+            {text: "Hauteur",                   field: "height",                    link: false },
+            {text: "Orientation",               field: "orientation",               link: false },
+            {text: "Développement actuel",      field: "actualDevelopment",         link: false },
+            {text: "Attraits principaux",       field: "attractions",               link: false },
+            {text: "Description",               field: "description",               link: false },
+            {text: "Secteurs",                  field: "sectors",                   link: false },
+            {text: "Premières voies à ouvrir",  field: "firstRoutesToBolt",         link: false },
+            {text: "Blocs",                     field: "boulders",                  link: false },
+            {text: "Accès",                     field: "access",                    link: false },
+            {text: "Lien Photos",               field: "picturesLink",              link: true  },
+            {text: "Numéro de lot du cadastre", field: "lotNumber",                 link: false },
+            {text: "Autres liens",              field: "otherLinks",                link: true  },
+        ]
 
-        <div class="info">Intérêt:</div><div class="infoDetails">${marker.interest}</div><br/>
-        <div class="info">Potentiel de voies:</div><div class="infoDetails">${marker.potentialAmountOfRoutes}</div><br/>
-        <div class="info">Largeur:</div><div class="infoDetails">${marker.width}</div><br/>
-        <div class="info">Hauteur:</div><div class="infoDetails">${marker.height}</div><br/>
-        <div class="info">Orientation:</div><div class="infoDetails">${marker.orientation}</div><br/>
-        <div class="info">Développement actuel:</div><div class="infoDetails">${marker.actualDevelopment}</div><br/>
-        <div class="info">Attraits principaux:</div><div class="infoDetails">${marker.attractions}</div><br/>
-        <div class="info">Description:</div><div class="infoDetails">${marker.description}</div><br/>
-        <div class="info">Secteurs:</div><div class="infoDetails">${marker.sectors}</div><br/>
-        <div class="info">Premières voies à ouvrir:</div><div class="infoDetails">${marker.FirstRoutesToBolt}</div><br/>
-        <div class="info">Blocs:</div><div class="infoDetails">${marker.Boulders}</div><br/>
-        <div class="info">Accès:</div><div class="infoDetails">${marker.Access}</div><br/>
-        <div class="info">Lien Photos:</div><div class="infoDetails">${marker.PicturesLink}</div><br/>
-        <div class="info">Numéro de lot du cadastre:</div><div class="infoDetails">${marker.LotNumber}</div><br/>
-        <div class="info">Autres liens:</div><div class="infoDetails">${marker.otherLinks}</div><br/>
-        `
+        for (const info of infos) {
+            const value = marker[info.field];
+            if (value) {
+                if (info.link) {
+                    marker.html += `<div class="info">${info.text}</div><a class="infoDetails" href="${value}">${value}</a><br/>`;
+                }
+                else {
+                    marker.html += `<div class="info">${info.text}</div><div class="infoDetails">${value}</div><br/>`;
+                }
+            }
+        }
         BbMarker.bindInfoWindow(marker);
     }
 
@@ -104,6 +114,4 @@ export class BbMarker {
             BbInfoWindow.infoWindow.open(map, marker.mark);
         });
     }
-
-
 }

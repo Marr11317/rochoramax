@@ -4,17 +4,14 @@
   "description": "A panorama of the laurentians' rock",
   "main": "/src/app.js",
   "scripts": {
-    "start": "webpack-dev-server --progress --hot --open",
     "build": "webpack",
     "watch": "webpack --watch"
   },
   "author": "Marr11317",
   "license": "Apache-2.0",
   "dependencies": {
-    "@google/markerclustererplus": "^5.0.3",
     "papaparse": "^5.3.0",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-cli": "^3.3.11"
   }
 }
