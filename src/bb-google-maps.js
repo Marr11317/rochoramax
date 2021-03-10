@@ -1,6 +1,6 @@
 export class BbGoogleMaps {
     static load(callback) {
-        const googleMapsAPIKey = 'AIzaSyDzRzTyzp4dcgND9mpFv4vVCW3JYjZSChk';
+        const googleMapsAPIKey = 'AIzaSyCyaFZGNkVN-fpT4MuTzyzCSwKMTX_U7So';
         const googleMapsAPIURI = `https://maps.googleapis.com/maps/api/js?key=${googleMapsAPIKey}&callback=googleMapsLoadCallback`;
 
         const script = document.createElement('script');
