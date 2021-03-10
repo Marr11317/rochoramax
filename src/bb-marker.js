@@ -98,7 +98,7 @@ export class BbMarker {
             const value = marker[info.field];
             if (value) {
                 if (info.link) {
-                    marker.html += `<div class="info">${info.text}</div><a class="infoDetails" href="${value}">${value}</a><br/>`;
+                    marker.html += `<div class="info">${info.text}</div><a class="infoDetails" href="${value}" target="_blank">${value}</a><br/>`;
                 }
                 else {
                     marker.html += `<div class="info">${info.text}</div><div class="infoDetails">${value}</div><br/>`;
