@@ -75,8 +75,9 @@ export class BbMarker {
             title: marker.title,
             animation: google.maps.Animation.DROP,
         });
-        marker.html = `<div id="topTitle">${marker.title}</div><br/>`
+        marker.html = `<div id="infoTopTitle">${marker.title}</div><br/>`
         const infos = [
+            {text: "Photos",                    field: "picturesLink",              link: true  },
             {text: "Intérêt",                   field: "interest",                  link: false },
             {text: "Potentiel de voies",        field: "potentialAmountOfRoutes",   link: false },
             {text: "Largeur",                   field: "width",                     link: false },
@@ -89,7 +90,6 @@ export class BbMarker {
             {text: "Premières voies à ouvrir",  field: "firstRoutesToBolt",         link: false },
             {text: "Blocs",                     field: "boulders",                  link: false },
             {text: "Accès",                     field: "access",                    link: false },
-            {text: "Lien Photos",               field: "picturesLink",              link: true  },
             {text: "Numéro de lot du cadastre", field: "lotNumber",                 link: false },
             {text: "Autres liens",              field: "otherLinks",                link: true  },
         ]
@@ -98,10 +98,10 @@ export class BbMarker {
             const value = marker[info.field];
             if (value) {
                 if (info.link) {
-                    marker.html += `<div class="info">${info.text}</div><a class="infoDetails" href="${value}" target="_blank">${value}</a><br/>`;
+                    marker.html += `<div class="info">${info.text}:</div><a class="infoDetails" href="${value}" target="_blank">${value}</a><br/><br/>`;
                 }
                 else {
-                    marker.html += `<div class="info">${info.text}</div><div class="infoDetails">${value}</div><br/>`;
+                    marker.html += `<div class="info">${info.text}:</div><div class="infoDetails">${value}</div><br/>`;
                 }
             }
         }

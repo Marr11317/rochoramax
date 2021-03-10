@@ -68,7 +68,6 @@ export class BbMarkers {
     static async addToggles() {
         const containerDiv = document.createElement("div");
         containerDiv.id = "togglesContainer";
-        document.body.appendChild(containerDiv);
         const options = [
             '4 - Oui !',
             '3 - Boui',
@@ -79,6 +78,9 @@ export class BbMarkers {
         for (let i = 0; i < options.length; i++) {
             const type = options[i];
 
+            const div = document.createElement('div');
+            div.classList.add("singleToggleDiv");
+
             const input = document.createElement('input');
             input.type = "checkbox";
             input.checked = true;
@@ -88,15 +90,17 @@ export class BbMarkers {
             input.addEventListener("change", (ev) => {
                 BbMarkers.toggleGroup(type, ev.target.checked);
             })
-            containerDiv.appendChild(input);
+            div.appendChild(input);
 
             const label = document.createElement('label');
             label.htmlFor = id;
             label.textContent = type.split(' ')[2];
-            containerDiv.appendChild(label);
+            div.appendChild(label);
 
-            containerDiv.appendChild(document.createElement('br'));
+            div.appendChild(document.createElement('br'));
+            containerDiv.appendChild(div);
         }
+        document.body.appendChild(containerDiv);
     }
 
     static toggleGroup(group, visible) {
