@@ -68,15 +68,108 @@ export class BbMarkers {
     static async addToggles() {
         const containerDiv = document.createElement("div");
         containerDiv.id = "togglesContainer";
-        const options = [
-            '4 - Oui !',
-            '3 - Boui',
-            '2 - Bof',
-            '1 - Nof',
-            '0 - Non',
+
+        const toggleAllInterests = document.createElement("button");
+        toggleAllInterests.textContent = "Intérêt";
+        toggleAllInterests.style.width = "100%";
+        toggleAllInterests.addEventListener("click", () => {
+            BbMarkers.toggleAll(interestCheckBoxes, "interest");
+        })
+        containerDiv.appendChild(toggleAllInterests);
+
+        const icons = BbMarker.icons;
+        let checkboxCount = 0;
+        for (const key in icons) {
+            if (Object.hasOwnProperty.call(icons, key)) {
+                if (key === "fallback") {
+                    continue;
+                }
+                const icon = icons[key];
+                const div = document.createElement('div');
+                div.classList.add("singleToggleDiv");
+
+                const input = document.createElement('input');
+                input.type = "checkbox";
+                input.checked = true;
+                input.classList.add("toggle");
+                const id = "toggle" + checkboxCount.toString(10);
+                input.id = id;
+                input.addEventListener("change", (ev) => {
+                    BbMarkers.toggleGroup("interest", key, ev.target.checked);
+                })
+                interestCheckBoxes.push(input);
+                div.appendChild(input);
+
+                const color = document.createElement('div');
+                color.style.background = icon.fillColor;
+                color.style.height = "12px";
+                color.style.width = "12px";
+                color.style.borderRadius = "50%";
+                color.style.display = "inline-block";
+                color.style.marginRight = "4px";
+                color.style.marginLeft = "1px";
+                div.appendChild(color);
+
+                const label = document.createElement('label');
+                label.htmlFor = id;
+                label.textContent = key.split(' ')[2];
+                div.appendChild(label);
+
+                div.appendChild(document.createElement('br'));
+                containerDiv.appendChild(div);
+
+                checkboxCount++;
+            }
+        }
+        const divider = document.createElement("div");
+        divider.style.width = "100%";
+        divider.style.height = "1px";
+        divider.style.background = "#000";
+        containerDiv.appendChild(divider);
+
+        const toggleAllOrientations = document.createElement("button");
+        toggleAllOrientations.textContent = "Orientation";
+        toggleAllOrientations.style.width = "100%";
+        toggleAllOrientations.addEventListener("click", () => {
+            BbMarkers.toggleAll(orientationCheckBoxes, "orientation");
+        })
+        containerDiv.appendChild(toggleAllOrientations);
+
+        const orientations = [
+            "Est",
+            "Nord-Est",
+            "Nord",
+            "Nord-Ouest",
+            "Ouest",
+            "Sud-Ouest",
+            "Sud",
+            "Sud-Est",
+            "Multiple",
         ]
-        for (let i = 0; i < options.length; i++) {
-            const type = options[i];
+        const display = [
+            "E",
+            "NE",
+            "N",
+            "NW",
+            "W",
+            "SW",
+            "S",
+            "SE",
+            "Multiple",
+        ]
+        const arrows = [
+            "\u2192",
+            "\u2197",
+            "\u2191",
+            "\u2196",
+            "\u2190",
+            "\u2199",
+            "\u2193",
+            "\u2198",
+            "\u2940",
+        ]
+        for (let i = 0; i < orientations.length; i++) {
+            const orientation = orientations[i];
 
             const div = document.createElement('div');
             div.classList.add("singleToggleDiv");
@@ -88,40 +181,86 @@ export class BbMarkers {
             const id = "toggle" + i.toString(10);
             input.id = id;
             input.addEventListener("change", (ev) => {
-                BbMarkers.toggleGroup(type, ev.target.checked);
+                BbMarkers.toggleGroup("orientation", orientation, ev.target.checked);
             })
+            orientationCheckBoxes.push(input);
             div.appendChild(input);
 
-            const color = document.createElement('div');
-            color.style.background = BbMarker.icons[type].fillColor;
-            color.style.height = "12px";
-            color.style.width = "12px";
-            color.style.borderRadius = "50%";
-            color.style.display = "inline-block";
-            color.style.marginRight = "3px";
-            div.appendChild(color);
+            const arrow = document.createElement('div');
+            arrow.textContent = arrows[i];
+            arrow.style.display = "inline-block";
+            arrow.style.textAlign = "center";
+            arrow.style.minWidth = "14px";
+            arrow.style.marginRight = "3px";
+            div.appendChild(arrow);
 
             const label = document.createElement('label');
             label.htmlFor = id;
-            label.textContent = type.split(' ')[2];
+            label.textContent = display[i];
             div.appendChild(label);
 
             div.appendChild(document.createElement('br'));
             containerDiv.appendChild(div);
+
+            checkboxCount++;
         }
         document.body.appendChild(containerDiv);
     }
 
-    static toggleGroup(group, visible) {
+    static toggleGroup(which, group, visible) {
+        state[which][group] = visible;
+        BbMarkers.updateState();
+    }
+    static updateState() {
         for (const m of BbMarkers.markers) {
-            if (m.interest === group) {
-                if (visible) {
+            if (state.interest[m.interest] && state.orientation[m.orientation]) {
                     m.mark.setMap(BbGoogleMaps.map);
-                }
-                else {
-                    m.mark.setMap(null);
-                }
+            }
+            else {
+                m.mark.setMap(null);
             }
         }
+    }
+    static toggleAll(targets, which) {
+        let allChecked = true;
+        for (const c of targets) {
+            if (!c.checked) {
+                allChecked = false;
+                break;
+            }
+        }
+        for (const i in state[which]) {
+            if (Object.hasOwnProperty.call(state[which], i)) {
+                state[which][i] = !allChecked;
+            }
+        }
+        for (const c of targets) {
+            c.checked = !allChecked;
+        }
+        BbMarkers.updateState();
+    }
+}
+
+let interestCheckBoxes = [];
+let orientationCheckBoxes = [];
+
+let state = {
+    interest: {
+        '4 - Oui !': true,
+        '3 - Boui': true,
+        '2 - Bof': true,
+        '1 - Nof': true,
+        '0 - Non': true,
+    },
+    orientation: {
+        "Est": true,
+        "Nord-Est": true,
+        "Nord": true,
+        "Nord-Ouest": true,
+        "Ouest": true,
+        "Sud-Ouest": true,
+        "Sud": true,
+        "Sud-Est": true,
+        "Multiple": true,
     }
 }
