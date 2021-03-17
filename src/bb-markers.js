@@ -92,6 +92,15 @@ export class BbMarkers {
             })
             div.appendChild(input);
 
+            const color = document.createElement('div');
+            color.style.background = BbMarker.icons[type].fillColor;
+            color.style.height = "12px";
+            color.style.width = "12px";
+            color.style.borderRadius = "50%";
+            color.style.display = "inline-block";
+            color.style.marginRight = "3px";
+            div.appendChild(color);
+
             const label = document.createElement('label');
             label.htmlFor = id;
             label.textContent = type.split(' ')[2];
