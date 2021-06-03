@@ -5,7 +5,7 @@
   "main": "/src/app.js",
   "scripts": {
     "build": "webpack",
-    "watch": "webpack --watch"
+    "dev": "webpack --watch"
   },
   "author": "Marr11317",
   "license": "Apache-2.0",

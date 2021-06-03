@@ -115,7 +115,6 @@ export class BbMarkers {
                 label.textContent = key.split(' ')[2];
                 div.appendChild(label);
 
-                div.appendChild(document.createElement('br'));
                 containerDiv.appendChild(div);
 
                 checkboxCount++;
@@ -198,9 +197,6 @@ export class BbMarkers {
             label.htmlFor = id;
             label.textContent = display[i];
             div.appendChild(label);
-
-            div.appendChild(document.createElement('br'));
-            containerDiv.appendChild(div);
 
             checkboxCount++;
         }
