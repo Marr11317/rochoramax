@@ -198,6 +198,8 @@ export class BbMarkers {
             label.textContent = display[i];
             div.appendChild(label);
 
+            containerDiv.appendChild(div);
+
             checkboxCount++;
         }
         document.body.appendChild(containerDiv);
